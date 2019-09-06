@@ -2,13 +2,16 @@
   "name": "issue2blog",
   "version": "1.0.0",
   "main": "index.js",
-  "bin": "index.js",
+  "bin": {
+    "issue2blog": "bin.js"
+  },
   "repository": "https://github.com/lotosbin/issue2blog.git",
   "author": "lotosbin <lotosbin@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "filenamify": "^4.1.0",
     "moment": "^2.24.0",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "yargs": "^14.0.0"
   }
 }
