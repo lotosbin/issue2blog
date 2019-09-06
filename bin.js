@@ -47,7 +47,7 @@ async function issueToArticle(issue) {
   var body = issue.body;
   var content = `---
   commentId: ${issue.id}
-  ---
+---
     # ${title} \r\n ${body}
     
     [view on github](${issue.html_url})
