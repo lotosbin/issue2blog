@@ -18,7 +18,7 @@ var argv = require('yargs')
   .epilog('copyright 2019')
   .argv;
 
-console.log('hello ', argv.n);
+// console.log('hello ', argv.n);
 
 async function getIssues(user, repo) {
   return new Promise((resolve, reject) => {
