@@ -42,15 +42,18 @@ const filenamify = require('filenamify');
 
 async function issueToArticle(issue) {
   var moment = require('moment');
-  var fileName = filenamify(`${moment(issue.created_at).format('YYYY-MM-DD')}-${issue.id}-${issue.title}`)
+  var fileName = filenamify(`${moment(issue.created_at).format('YYYY-MM-DD')}-${issue.id}`)
   var title = issue.title;
   var body = issue.body;
   var content = `---
+  title: ${issue.title}
   commentId: ${issue.id}
 ---
-    # ${title} \r\n ${body}
+# ${title}
+
+${body}
     
-    [view on github](${issue.html_url})
+[view on github](${issue.html_url})
     `
   return { fileName, content }
 }
