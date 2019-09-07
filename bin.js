@@ -46,8 +46,8 @@ async function issueToArticle(issue) {
   var title = issue.title;
   var body = issue.body;
   var content = `---
-  title: ${issue.title}
-  commentId: ${issue.id}
+title: ${issue.title}
+commentId: ${issue.id}
 ---
 # ${title}
 
