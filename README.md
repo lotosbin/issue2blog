@@ -3,6 +3,9 @@ transform github issues to jekyll blog
 
 # usage
 ## 使用
+```
+nvm use 10
+```
 ```bash
 npx issue2blog --user lotosbin --repo lotosbin.github.io
 ```

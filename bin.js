@@ -49,11 +49,10 @@ async function issueToArticle(issue) {
 title: "${issue.title}"
 commentId: ${issue.id}
 ---
-# ${title}
 
 ${body}
     
-[view on github](${issue.html_url})
+[查看原文](${issue.html_url})
     `
   return { fileName, content }
 }
