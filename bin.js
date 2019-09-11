@@ -12,7 +12,14 @@ var argv = require('yargs')
     describe: 'your github repository name',
     type: 'string'
   })
+  .option('l', {
+    alias: 'labels',
+    describe: 'issue labels, split by ,',
+    type: 'string',
+    default: 'published'
+  })
   .example('issue2blog --user lotosbin --repo lotosbin.github.io', '')
+  .example('issue2blog -u lotosbin -r lotosbin.github.io -l done,published', 'generate blog by lables')
   .help('h')
   .alias('h', 'help')
   .epilog('copyright 2019')
@@ -20,7 +27,7 @@ var argv = require('yargs')
 
 // console.log('hello ', argv.n);
 
-async function getIssues(user, repo) {
+async function getIssues(user, repo, labels) {
   return new Promise((resolve, reject) => {
     const options = {
       method: 'GET',
@@ -29,7 +36,8 @@ async function getIssues(user, repo) {
       }
     };
     var request = require('request');
-    request(`https://api.github.com/repos/${user}/${repo}/issues?labels=published`, options, function (error, response, body) {
+    //https://api.github.com/repos/lotosbin/lotosbin.github.io/issues?labels=published
+    request(`https://api.github.com/repos/${user}/${repo}/issues?labels=${labels}`, options, function (error, response, body) {
       if (!error && response.statusCode == 200) {
         resolve(JSON.parse(body));
       } else {
@@ -48,6 +56,7 @@ async function issueToArticle(issue) {
   var content = `---
 title: "${issue.title}"
 commentId: ${issue.id}
+tags: ${(issue.labels||[]).map(it=>it.name).join(',')}
 ---
 
 ${body}
@@ -72,8 +81,8 @@ async function writeArticleToFile(article) {
     });
   })
 }
-var main = async (user, repo) => {
-  var issues = await getIssues(user, repo);
+var main = async (user, repo, labels) => {
+  var issues = await getIssues(user, repo, labels);
   for (i in issues) {
     var issue = issues[i];
     var article = await issueToArticle(issue);
@@ -86,7 +95,7 @@ process.on('SIGINT', function () {
   process.exit(0);
 });
 if (argv.user && argv.repo) {
-  main(argv.user, argv.repo)
+  main(argv.user, argv.repo, argv.labels)
   // if (err) {
   //   process.exit(1);
   // } else {
