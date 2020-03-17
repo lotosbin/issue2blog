@@ -32,4 +32,5 @@ copyright 2019
 ```
 
 # 应用
-- https://lotosbin.github.io
+- [lotosbin's blog](https://lotosbin.github.io)
+
