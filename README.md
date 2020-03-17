@@ -7,7 +7,7 @@ transform github issues to jekyll blog
 nvm use 10
 ```
 ```bash
-npx issue2blog --user lotosbin --repo lotosbin.github.io
+npx github:lotosbin/issue2blog --user lotosbin --repo lotosbin.github.io
 ```
 将从 github/lotosbin/lotosbin.github.io 获取标签为published的issue列表，生成blog到当前的_posts目录（自行创建该目录)。
 
