@@ -38,7 +38,7 @@ async function getIssues(user, repo, labels) {
     var request = require('request');
     //https://api.github.com/repos/lotosbin/lotosbin.github.io/issues?labels=published
     request(`https://api.github.com/repos/${user}/${repo}/issues?labels=${labels}`, options, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
+      if (!error && response.statusCode === 200) {
         resolve(JSON.parse(body));
       } else {
         reject(error || `${response.statusCode}`)
@@ -50,18 +50,27 @@ const filenamify = require('filenamify');
 
 async function issueToArticle(issue) {
   var moment = require('moment');
+  var URL = require('url').URL;
+
   var fileName = filenamify(`${moment(issue.created_at).format('YYYY-MM-DD')}-${issue.id}`)
   var title = issue.title;
   var body = issue.body;
+  var url = issue.html_url;
+  try {
+    url = new URL(body.trim());
+    console.log(`body:${body},url:${url}`)
+  } catch (e) {
+    console.log(e)
+  }
   var content = `---
-title: "${issue.title}"
+title: "${title}"
 commentId: ${issue.id}
-tags: ${(issue.labels||[]).map(it=>it.name).join(',')}
+tags: ${(issue.labels || []).map(it => it.name).join(',')}
 ---
 
 ${body}
     
-[查看原文](${issue.html_url})
+[查看原文](${url})
     `
   return { fileName, content }
 }
@@ -95,10 +104,12 @@ process.on('SIGINT', function () {
   process.exit(0);
 });
 if (argv.user && argv.repo) {
-  main(argv.user, argv.repo, argv.labels)
-  // if (err) {
-  //   process.exit(1);
-  // } else {
-  //   process.exit(0);
-  // }
+  main(argv.user, argv.repo, argv.labels).then(a => {
+    process.exit(0);
+  }).catch(reason => {
+    console.log(reason);
+    process.exit(1);
+  })
+} else {
+  process.exit(0);
 }
