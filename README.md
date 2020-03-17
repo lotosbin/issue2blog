@@ -30,3 +30,6 @@ Examples:
 
 copyright 2019
 ```
+
+# 应用
+- https://lotosbin.github.io
