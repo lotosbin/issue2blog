@@ -56,9 +56,10 @@ async function issueToArticle(issue) {
   var title = issue.title;
   var body = issue.body;
   var url = issue.html_url;
+  var summary = "";
   try {
     url = new URL(body.trim());
-    console.log(`body:${body},url:${url}`)
+    summary = `[查看原文](${url})`
   } catch (e) {
     console.log(e)
   }
@@ -66,6 +67,8 @@ async function issueToArticle(issue) {
 title: "${title}"
 commentId: ${issue.id}
 tags: ${(issue.labels || []).map(it => it.name).join(',')}
+original_link: "${url}"
+summary: "${summary}"
 ---
 
 ${body}
